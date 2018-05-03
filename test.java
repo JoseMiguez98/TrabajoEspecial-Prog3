@@ -5,9 +5,9 @@ import java.util.Set;
 public class test {
 
 	public static void main(String[] args) {
-		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/dataset2.csv", ",");
+		CSVReader reader = new CSVReader("/home/turbio/Escritorio/TrabajoEspecial-Prog3/csvfiles/dataset2.csv", ",");
 
-		List<HashMap<String, String>> libros = reader.getLibros();
+		List<HashMap<String, String>> libros = reader.listaDeLibros();
 		Set<String>keys = libros.get(0).keySet();
 
 //		for(int i = 0; i<libros.size() ; i++) {

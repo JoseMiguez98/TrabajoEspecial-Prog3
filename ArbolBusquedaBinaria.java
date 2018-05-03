@@ -19,12 +19,12 @@ class Nodo {
 	}
 
 	protected Nodo(String _i) {
-		setInfo(_i);
+		setIndice(_i);
 		izq = null;
 		der = null;
 		libros = new LinkedList<Libro>();
 	}
-	protected void setInfo(String _i) {
+	protected void setIndice(String _i) {
 		indice = _i;
 	}
 
@@ -62,7 +62,7 @@ public class ArbolBusquedaBinaria {
 	}
 
 	public ArbolBusquedaBinaria(String _i) {
-		this.raiz.setInfo(_i);
+		this.raiz.setIndice(_i);
 	} 
 
 	public Object getRoot() {
@@ -89,6 +89,7 @@ public class ArbolBusquedaBinaria {
 					//Si mi izquierdo es nulo inserto el elemento
 					if(_n.getIzq() == null) {
 						_n.setIzq(new Nodo(_i));
+						
 						return true;
 					}
 					//Si no llamo recursivamente a la función con el sub-arbol derecho
@@ -111,7 +112,7 @@ public class ArbolBusquedaBinaria {
 			}
 			//Si el nodo no tiene info inserto el elemento en esta posición  
 			else {
-				_n.setInfo(_i);
+				_n.setIndice(_i);
 				return true;
 			}
 		}
