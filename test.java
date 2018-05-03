@@ -6,13 +6,17 @@ import java.util.Set;
 public class test {
 
 	public static void main(String[] args) {
-		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/dataset2.csv", ",");
+		CSVReader reader = new CSVReader("/home/turbio/programacion3/TrabajoPractico-Programacion3/csvfiles/dataset2.csv", ",");
 		LinkedList<Libro> libros = reader.listaDeLibros();
-
+		ArbolBusquedaBinaria abb= new ArbolBusquedaBinaria();
 		Set<String> generos = reader.getGeneros(libros);
 
 		for(String genero : generos) {
-			System.out.println(genero);
+			abb.insert(genero, reader.getLibrosPorGenero(genero, libros));
+		}
+		List<String> gen=abb.inOrder();
+		for(String g : gen){
+			System.out.println(g);
 		}
 	}
 }

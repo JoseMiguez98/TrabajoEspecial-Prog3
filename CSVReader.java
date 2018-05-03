@@ -58,6 +58,16 @@ public class CSVReader {
 		
 		return generos;
 	}
+	public LinkedList<Libro> getLibrosPorGenero(String i,LinkedList<Libro>l){
+		LinkedList<Libro> libros=new LinkedList();
+		for(Libro libro : l){
+			if(libro.containsGenero(i)){
+				libros.add(libro);
+			}
+			
+		}
+		return libros;
+	}
 	
 	
 	

@@ -44,6 +44,9 @@ class Nodo {
 	protected Nodo getIzq() {
 		return izq;
 	}
+	protected void setLista(LinkedList<Libro>l){
+		libros=l;
+	}
 	protected boolean insertLibro(Libro _l) {
 		if (!this.libros.contains(_l)) {
 			this.libros.add(_l);
@@ -70,12 +73,12 @@ public class ArbolBusquedaBinaria {
 	}
 
 	//Auxiliar para comenzar el recorrido recursivo antes de insertar
-	public boolean insert(String _i) {
-		return this.insert(this.raiz, _i);
+	public boolean insert(String _i,LinkedList<Libro> l) {
+		return this.insert(this.raiz, _i,l);
 	}
 
 	//Inserta un elemento en el ABB, retorna TRUE si la operacion fue exitosa
-	public boolean insert(Nodo _n, String _i) {
+	public boolean insert(Nodo _n, String _i,LinkedList<Libro> l) {
 		//Si el nodo es desigual a nulo comienzo a recorrer el arbol para determinar donde insertar el elemento
 		if(_n != null) {
 			//Si _n.info es desigual a nulo comienzo a preguntar para ver donde inserto el elemento
@@ -94,7 +97,7 @@ public class ArbolBusquedaBinaria {
 					}
 					//Si no llamo recursivamente a la función con el sub-arbol derecho
 					else {
-						return insert(_n.getIzq(), _i);
+						return insert(_n.getIzq(), _i ,l);
 					}
 				}
 				//Si el elemento que quiero insertar es mayor al actual entro recursivamente con el sub-arbol derecho
@@ -106,7 +109,7 @@ public class ArbolBusquedaBinaria {
 					}
 					//Si no llamo recursivamente a la funcion
 					else {
-						return insert(_n.getDer(), _i);
+						return insert(_n.getDer(), _i,l);
 					}
 				}
 			}
@@ -119,8 +122,10 @@ public class ArbolBusquedaBinaria {
 		//Si llegue a un nodo nulo lo instancio con la info pasada por parametro
 		else {
 			_n = new Nodo(_i);
+			_n.setLista(l);
 			return true;
 		}
+		
 	}
 
 	//Auxiliar para comenzar la busqueda recursiva
