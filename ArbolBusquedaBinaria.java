@@ -47,6 +47,9 @@ class Nodo {
 	protected void setLista(LinkedList<Libro>l){
 		libros=l;
 	}
+	protected LinkedList<Libro> getLibros(){
+		return new LinkedList<Libro>(this.libros);
+	}
 	protected boolean insertLibro(Libro _l) {
 		if (!this.libros.contains(_l)) {
 			this.libros.add(_l);
@@ -78,7 +81,7 @@ public class ArbolBusquedaBinaria {
 	}
 
 	//Inserta un elemento en el ABB, retorna TRUE si la operacion fue exitosa
-	public boolean insert(Nodo _n, String _i,LinkedList<Libro> l) {
+	private boolean insert(Nodo _n, String _i, LinkedList<Libro> l) {
 		//Si el nodo es desigual a nulo comienzo a recorrer el arbol para determinar donde insertar el elemento
 		if(_n != null) {
 			//Si _n.info es desigual a nulo comienzo a preguntar para ver donde inserto el elemento
@@ -92,6 +95,7 @@ public class ArbolBusquedaBinaria {
 					//Si mi izquierdo es nulo inserto el elemento
 					if(_n.getIzq() == null) {
 						_n.setIzq(new Nodo(_i));
+						_n.getIzq().setLista(l);
 						
 						return true;
 					}
@@ -105,6 +109,7 @@ public class ArbolBusquedaBinaria {
 					//Si el nodo derecho es nulo inserto el elemento
 					if(_n.getDer() == null) {
 						_n.setDer(new Nodo(_i));
+						_n.getDer().setLista(l);
 						return true;
 					}
 					//Si no llamo recursivamente a la funcion
@@ -116,6 +121,7 @@ public class ArbolBusquedaBinaria {
 			//Si el nodo no tiene info inserto el elemento en esta posición  
 			else {
 				_n.setIndice(_i);
+				_n.setLista(l);
 				return true;
 			}
 		}
@@ -226,5 +232,24 @@ public class ArbolBusquedaBinaria {
 		}
 
 		return null;
+	}
+	
+	public LinkedList<Libro> getLibrosGenero(String _g){
+		return getLibrosGenero(this.raiz, _g);
+	}
+	
+	private LinkedList<Libro> getLibrosGenero(Nodo _n, String _g){
+		if(_n != null) {
+			if(_n.getInfo().equals(_g)) {
+				return _n.getLibros();
+			}
+			if(_g.compareTo(_n.getInfo()) < 0) {
+				return getLibrosGenero(_n.getIzq(), _g);
+			}
+			else {
+				return getLibrosGenero(_n.getDer(), _g);
+			}
+		}
+		return new LinkedList<Libro>();
 	}
 }
