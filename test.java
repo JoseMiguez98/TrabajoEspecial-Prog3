@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,16 +11,19 @@ public class test {
 
 	public static void main(String[] args) {
 		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/dataset2.csv", ",");
-		LinkedList<Libro> libros = reader.listaDeLibros();
+		LinkedList<Libro>libros = reader.listaDeLibros();
 		ArbolBusquedaBinaria abb= new ArbolBusquedaBinaria();
 		Set<String> generos = reader.getGeneros(libros);
 		CSVWritter writter = new CSVWritter("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/prueba.csv");
+		Timer timer = new Timer();
 		
 		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 		
+//		timer.start();
 		for(String genero : generos) {
 			abb.insert(genero, reader.getLibrosPorGenero(genero, libros));
 		}
+//		System.out.println(timer.stop());
 		
 		try {
 			String genero = entrada.readLine();

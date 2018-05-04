@@ -20,22 +20,25 @@ public class CSVReader {
 		this.csvSplitBy = _split;
 	}
 	
-	//Retorno una lista con los libros
-	public LinkedList  listaDeLibros(){
-		
-		LinkedList <Libro>biblioteca=new LinkedList();
+	//Retorno una lista con los libros (LinkedList)
+	public LinkedList<Libro>listaDeLibros(){
+//		System.out.println("====LinkedList=====");
+//		Timer timer = new Timer();
+		LinkedList <Libro>biblioteca=new LinkedList<Libro>();
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 			while ((line = br.readLine()) != null) {
-
-				HashMap<String, String> libro_actual = new HashMap<String, String>();
+				
 				String[] items = line.split(csvSplitBy);
 				Libro l= new Libro(items[0],items[1],items[2]);
 				String[] generos = items[3].split(" ");
 				for(int i=0;i<generos.length;i++){
 					l.addGenero(generos[i]);
 				}
+				
+//				timer.start(); //Mido el tiempo que tarda en insertar un elemento en la LinkedList
 				biblioteca.add(l);
+//				System.out.println(timer.stop());
 			}
 
 		} catch (IOException e) {
@@ -45,6 +48,29 @@ public class CSVReader {
 		return biblioteca;
 	}
 	
+//	//Retorno una lista con los libros
+//		public ArrayList<Libro>listaDeLibrosArrayList(){
+//			ArrayList <Libro>biblioteca=new ArrayList<Libro>();
+//			
+//			try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+//				while ((line = br.readLine()) != null) {
+//					
+//					String[] items = line.split(csvSplitBy);
+//					Libro l= new Libro(items[0],items[1],items[2]);
+//					String[] generos = items[3].split(" ");
+//					for(int i=0;i<generos.length;i++){
+//						l.addGenero(generos[i]);
+//					}
+//					biblioteca.add(l);
+//									}
+//
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return biblioteca;
+//		}
+//	
 	
 	public Set<String> getGeneros(LinkedList<Libro> _l){
 		Set<String> generos = new HashSet<String>();
