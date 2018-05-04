@@ -13,6 +13,7 @@ public class test {
 		LinkedList<Libro> libros = reader.listaDeLibros();
 		ArbolBusquedaBinaria abb= new ArbolBusquedaBinaria();
 		Set<String> generos = reader.getGeneros(libros);
+		CSVWritter writter = new CSVWritter("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/prueba.csv");
 		
 		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -26,9 +27,10 @@ public class test {
 			
 			LinkedList<Libro>retorno = abb.getLibrosGenero(genero);
 			
-			for(Libro l : retorno) {
-				l.print();
-			}
+			writter.escribirSalida(retorno);
+			
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

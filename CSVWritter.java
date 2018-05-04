@@ -2,36 +2,34 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class CSVWritter {
+	File file;
+	BufferedWriter bw;
 
-	public static void main(String[] args) {
-		BufferedWriter bw = null;
+	public CSVWritter(String _path) {
+		this.file = new File(_path);
+		this.bw = null;
+	}
+
+
+	public void escribirSalida(List<Libro> _l) {
 		try {
-			File file = new File("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/salida.csv");
+
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-
+			
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
-
-			// Escribo la primer linea del archivo
-			String contenidoLinea1 = "Usuario1,Tiempo1";
-			bw.write(contenidoLinea1);
-			bw.newLine();
-
-			// Escribo la segunda linea del archivo
-			String contenidoLinea2 = "Usuario2,Tiempo2";
-			bw.write(contenidoLinea2);
-			bw.newLine();
-
-			/*
-			 *
-			 * ... 
-			 * 
-			 */
-
+			
+			for(Libro libro : _l) {
+				bw.write(libro.getTitulo());
+				bw.newLine();
+			}
+			
+			
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
@@ -43,5 +41,4 @@ public class CSVWritter {
 			}
 		}
 	}
-
 }
