@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import Grafo.Grafo;
 
 public class CSVReader {
 
@@ -48,6 +49,52 @@ public class CSVReader {
 		return biblioteca;
 	}
 	
+	public void setComportamiento(Grafo _g) {
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+			while ((line = br.readLine()) != null) {
+				
+				String[] items = line.split(csvSplitBy);
+				
+				for(int i = 0 ; i<items.length-1 ; i++) {
+					if(_g.existArista(items[i], items[+1])) {
+						_g.aumentarPesoArista(items[i], items[+1]);
+					}
+					else {
+						_g.addArista(items[i], items[+1]);
+					}
+				}
+				
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public Set<String>listaDeGeneros(){
+//		System.out.println("====LinkedList=====");
+//		Timer timer = new Timer();
+		Set <String>generos=new HashSet<String>();
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+			while ((line = br.readLine()) != null) {
+				
+				String[] items = line.split(csvSplitBy);
+				for(String g : items) {
+					generos.add(g);
+				}
+				
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return generos;
+	}
+	
 //	//Retorno una lista con los libros
 //		public ArrayList<Libro>listaDeLibrosArrayList(){
 //			ArrayList <Libro>biblioteca=new ArrayList<Libro>();
@@ -85,7 +132,7 @@ public class CSVReader {
 		return generos;
 	}
 	public LinkedList<Libro> getLibrosPorGenero(String i,LinkedList<Libro>l){
-		LinkedList<Libro> libros=new LinkedList();
+		LinkedList<Libro> libros=new LinkedList<Libro>();
 		for(Libro libro : l){
 			if(libro.containsGenero(i)){
 				libros.add(libro);

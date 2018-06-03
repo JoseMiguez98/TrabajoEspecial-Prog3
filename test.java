@@ -6,38 +6,50 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import Grafo.Grafo;
+import Grafo.GrafoDirigido;
 
 public class test {
 
 	public static void main(String[] args) {
-		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/dataset2.csv", ",");
-		LinkedList<Libro>libros = reader.listaDeLibros();
-		ArbolBusquedaBinaria abb= new ArbolBusquedaBinaria();
-		Set<String> generos = reader.getGeneros(libros);
-		CSVWritter writter = new CSVWritter("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/prueba.csv");
-		Timer timer = new Timer();
+//		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/dataset2.csv", ",");
+//		LinkedList<Libro>libros = reader.listaDeLibros();
+//		ArbolBusquedaBinaria abb= new ArbolBusquedaBinaria();
+//		Set<String> generos = reader.getGeneros(libros);
+//		CSVWritter writter = new CSVWritter("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/prueba.csv");
+//		Timer timer = new Timer();
+//		
+//		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+//		
+////		timer.start();
+//		for(String genero : generos) {
+//			abb.insert(genero, reader.getLibrosPorGenero(genero, libros));
+//		}
+////		System.out.println(timer.stop());
+//		
+//		try {
+//			String genero = entrada.readLine();
+//
+//			
+//			LinkedList<Libro>retorno = abb.getLibrosGenero(genero);
+//			
+//			writter.escribirSalida(retorno);
+//			
+//			
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
-		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/2daEntrega/dataset1.csv", ",");
+		Set<String> generos = reader.listaDeGeneros();
+		Grafo grafo_generos = new GrafoDirigido();
 		
-//		timer.start();
-		for(String genero : generos) {
-			abb.insert(genero, reader.getLibrosPorGenero(genero, libros));
+		for(String g : generos) {
+			grafo_generos.addVertice(g);
 		}
-//		System.out.println(timer.stop());
 		
-		try {
-			String genero = entrada.readLine();
-
-			
-			LinkedList<Libro>retorno = abb.getLibrosGenero(genero);
-			
-			writter.escribirSalida(retorno);
-			
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		reader.setComportamiento(grafo_generos);
 	}
 }
