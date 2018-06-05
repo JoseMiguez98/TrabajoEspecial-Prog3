@@ -28,7 +28,7 @@ public class GrafoDirigido extends Grafo {
 
 	@Override
 	public boolean addArista(String _v1, String _v2, Integer _p) {
-//		System.out.println(_v1+" "+_v2);
+		//		System.out.println(_v1+" "+_v2);
 		//Compruebo que existan los vertices en el grafo
 		if(this.containsVertice(_v1) && this.containsVertice(_v2)) {
 			//Compruebo que no exista una arista que una estos 2 vertices
@@ -36,8 +36,8 @@ public class GrafoDirigido extends Grafo {
 				//Obtengo los vertices
 				Vertice v1 = this.getVertice(_v1);
 				Vertice v2 = this.getVertice(_v2);
-				v1.addAdyacente(v2);
-				this.aristas.add(new Arista(v1, v2, _p));
+				Arista nueva_arista = v1.addAdyacente(v2);
+				this.aristas.add(nueva_arista);
 				numA++;
 				return true;
 			}
@@ -88,7 +88,7 @@ public class GrafoDirigido extends Grafo {
 		List<Arista>adyacentes;
 		Arista[]NAristasMayorPeso = new Arista[_n];
 		Vertice[]NVerticesMayorPeso = new Vertice[_n];
-		
+
 		if(this.containsVertice(_g)) {
 			genero = this.getVertice(_g);
 			adyacentes = genero.getAristas();
@@ -99,19 +99,19 @@ public class GrafoDirigido extends Grafo {
 				NVerticesMayorPeso = new Vertice[_n];
 			}
 		}
-		
+
 		else {
 			String[]error = new String[1];
 			error[0] = "No existe el genero ingresado";
 			return error;
 		}
-		
+
 		Collections.sort(adyacentes, new ComparatorCostoArista());
-		
-//		for(Arista a : adyacentes) {
-//			System.out.println(a.getVertice2().getEtiqueta());
-//		}
-//		
+
+		//		for(Arista a : adyacentes) {
+		//			System.out.println(a.getVertice2().getEtiqueta());
+		//		}
+		//		
 		for(int i = 0; i<_n ; i++) {
 			NAristasMayorPeso[i] = adyacentes.get(i);
 		}
@@ -119,11 +119,11 @@ public class GrafoDirigido extends Grafo {
 		for(int i = 0 ; i<_n ; i++) {
 			NVerticesMayorPeso[i] = NAristasMayorPeso[i].getVertice2();
 		}
-		
+
 		for(int i = 0 ; i<_n ; i++) {
 			solucion[i] = NVerticesMayorPeso[i].getEtiqueta();
 		}
-		
+
 		return solucion;
 
 

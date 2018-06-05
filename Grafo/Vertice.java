@@ -44,15 +44,16 @@ class Vertice {
 	}
 	
 	//Agrega un adyacente a la lista
-	public boolean addAdyacente(Vertice _v) {
+	public Arista addAdyacente(Vertice _v) {
 		for(Arista a: this.adyacentes) {
 			//Checkea que no se quiera conectar con un repetido
 			if(a.getVertice2().getEtiqueta().equals(_v.getEtiqueta())) {
-				return false;
+				return null;
 			}
 		}
-		this.adyacentes.add(new Arista(this, _v, 1));
-		return true;
+		Arista a = new Arista(this, _v, 1);
+		this.adyacentes.add(a);
+		return a;
 	}
 
 	//Retorna TRUE si coinciden en etiqueta , para evitar redundancia de datos
@@ -84,7 +85,11 @@ class Vertice {
 	}
 	
 	public List<Arista>getAristas(){
+		for(Arista a : this.adyacentes) {
+			System.out.println(a.getPeso());
+		}
+		
 		List<Arista>solucion = new ArrayList<Arista>(this.adyacentes);
-		return this.adyacentes;
+		return solucion;
 	}
 }
