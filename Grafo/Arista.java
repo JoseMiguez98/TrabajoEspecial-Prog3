@@ -1,6 +1,6 @@
 package Grafo;
 
- class Arista {
+ public class Arista {
 	Vertice vertice1;
 	Vertice vertice2;
 	Integer peso;

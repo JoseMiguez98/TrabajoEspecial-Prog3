@@ -82,4 +82,9 @@ class Vertice {
 
 		return retorno;
 	}
+	
+	public List<Arista>getAristas(){
+		List<Arista>solucion = new ArrayList<Arista>(this.adyacentes);
+		return this.adyacentes;
+	}
 }

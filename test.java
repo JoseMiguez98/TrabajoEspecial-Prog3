@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import Grafo.Arista;
 import Grafo.Grafo;
 import Grafo.GrafoDirigido;
 
@@ -42,14 +44,25 @@ public class test {
 //			e.printStackTrace();
 //		}
 		
-		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/2daEntrega/dataset1.csv", ",");
+		CSVReader reader = new CSVReader("/home/jose/eclipse-workspace/TrabajoEspecial-Parte1[Programacion3]/src/csvfiles/2daEntrega/testDataset.csv", ",");
 		Set<String> generos = reader.listaDeGeneros();
-		Grafo grafo_generos = new GrafoDirigido();
+		GrafoDirigido grafo_generos = new GrafoDirigido();
 		
 		for(String g : generos) {
 			grafo_generos.addVertice(g);
 		}
 		
 		reader.setComportamiento(grafo_generos);
+		
+		String[]generosMasBuscados = grafo_generos.generosMasBuscados("terror", 3);
+	
+		for(String g : generosMasBuscados) {
+			System.out.print(g + "\t");
+		}
+		
+		//No funciona obtener los N mas buscados, obtiene cualquiera y los manda;
+		//Checkear el metodo setComportamiento() que su funcionamiento sea correcto;
+	
+//		System.out.println(grafo_generos.existArista("juegos", "política"));
 	}
 }

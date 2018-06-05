@@ -48,20 +48,41 @@ public class CSVReader {
 		
 		return biblioteca;
 	}
-	
+	//Crea aristas entre los generos las cuales determinan el comportamiento de usuario
+	//contando cuantas veces se busco un genero inmediatamente despues de otro
 	public void setComportamiento(Grafo _g) {
+//		int contador = 0;
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 			while ((line = br.readLine()) != null) {
-				
+//				contador++;
+//				System.out.println("\n");
+				//Obtengo el orden de busqueda de la linea actual
 				String[] items = line.split(csvSplitBy);
+//				
+//				for(String i : items) {
+//					System.out.print(i + "\t");
+//				}
 				
+//				System.out.println(contador);
+				
+				//Creo las aristas
 				for(int i = 0 ; i<items.length-1 ; i++) {
-					if(_g.existArista(items[i], items[+1])) {
-						_g.aumentarPesoArista(items[i], items[+1]);
+//					System.out.println("\n");
+//					System.out.println(contador);
+					//Si existe la arista le sumo 1 a esta
+					if(_g.existArista(items[i], items[i+1])) {
+//						System.out.println("Ya existentes:=================");
+//					    System.out.print(items[i]+" "+items[i+1]);
+//					    System.out.println("\n");
+						_g.aumentarPesoArista(items[i], items[i+1]);
 					}
+					//Si no creo una nueva con peso 1
 					else {
-						_g.addArista(items[i], items[+1]);
+//						System.out.println("No existentes:");
+//						System.out.print(items[i]+" "+items[i+1]);
+//						System.out.println("\n");
+						_g.addArista(items[i], items[i+1]);
 					}
 				}
 				
@@ -72,16 +93,24 @@ public class CSVReader {
 		}
 	}
 	
-	
+	//Obtengo todos los generos del dataset sin repetidos
 	public Set<String>listaDeGeneros(){
 //		System.out.println("====LinkedList=====");
 //		Timer timer = new Timer();
+		//Conjunto solucion vacio
 		Set <String>generos=new HashSet<String>();
-		
+//		int contador = 0;
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 			while ((line = br.readLine()) != null) {
-				
+//				contador++;
+//				System.out.println(contador);
+				//Spliteo todos los generos y los voy agregando al conjunto
 				String[] items = line.split(csvSplitBy);
+				
+//				for(String i : items) {
+//					System.out.println(i);
+//				}
+//					
 				for(String g : items) {
 					generos.add(g);
 				}

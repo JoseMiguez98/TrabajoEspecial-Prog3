@@ -28,9 +28,15 @@ public abstract class Grafo {
 	public abstract Arista getArista(String _v1, String _v2);
 	
 	public boolean aumentarPesoArista(String _v1, String _v2) {
+//		System.out.println(_v1+" "+_v2);
 		if(this.existArista(_v1, _v2)) {
 			Arista a = this.getArista(_v1, _v2);
-			a.setPeso(a.getPeso()+1);
+//			System.out.println(a.getVertice1().getEtiqueta()+" "+a.getVertice2().getEtiqueta());
+			int p = a.getPeso() + 1;
+//			System.out.println(a.getPeso());
+//			System.out.println(p);
+			a.setPeso(p);
+//			System.out.println(a.getPeso());
 			return true;
 		}
 		return false;
