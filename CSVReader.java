@@ -79,10 +79,10 @@ public class CSVReader {
 					}
 					//Si no creo una nueva con peso 1
 					else {
-//						System.out.println("No existentes:");
-//						System.out.print(items[i]+" "+items[i+1]);
-//						System.out.println("\n");
-						_g.addArista(items[i], items[i+1]);
+						System.out.println("No existentes:");
+						System.out.print(items[i]+" "+items[i+1]);
+						System.out.println("\n");
+						System.out.println(_g.addArista(items[i], items[i+1]));
 					}
 				}
 				

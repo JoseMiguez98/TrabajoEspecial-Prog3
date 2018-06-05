@@ -54,7 +54,9 @@ public class test {
 		
 		reader.setComportamiento(grafo_generos);
 		
-		String[]generosMasBuscados = grafo_generos.generosMasBuscados("terror", 3);
+		String[]generosMasBuscados = grafo_generos.generosMasBuscados("terror");
+		
+		System.out.println(grafo_generos.existArista("terror", "ficción"));
 	
 		for(String g : generosMasBuscados) {
 			System.out.print(g + "\t");

@@ -85,10 +85,6 @@ class Vertice {
 	}
 	
 	public List<Arista>getAristas(){
-		for(Arista a : this.adyacentes) {
-			System.out.println(a.getPeso());
-		}
-		
 		List<Arista>solucion = new ArrayList<Arista>(this.adyacentes);
 		return solucion;
 	}

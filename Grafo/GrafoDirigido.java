@@ -28,7 +28,7 @@ public class GrafoDirigido extends Grafo {
 
 	@Override
 	public boolean addArista(String _v1, String _v2, Integer _p) {
-		//		System.out.println(_v1+" "+_v2);
+//			System.out.println(_v1+" "+_v2);
 		//Compruebo que existan los vertices en el grafo
 		if(this.containsVertice(_v1) && this.containsVertice(_v2)) {
 			//Compruebo que no exista una arista que una estos 2 vertices
@@ -127,5 +127,19 @@ public class GrafoDirigido extends Grafo {
 		return solucion;
 
 
+	}
+	public String[] generosMasBuscados(String _g) {
+		Vertice genero;
+		List<Arista>adyacentes;
+		
+			genero = this.getVertice(_g);
+			adyacentes = genero.getAristas();
+			
+			
+		return generosMasBuscados(_g,adyacentes.size());
+
+
+
+	
 	}
 }
