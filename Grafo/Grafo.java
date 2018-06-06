@@ -19,7 +19,7 @@ public abstract class Grafo {
 		this.numA = 0;
 		this.numV = 0;
 	}
-
+	
 	public abstract boolean existArista(String _v1, String _v2);
 
 	//Las aristas se a�aden referenciando las etiquetas de los vertices existentes en el grafo
@@ -168,6 +168,11 @@ public abstract class Grafo {
 		
 		return retorno;
 		
+	}
+	
+	public List<Vertice>getVertices(){
+		List<Vertice>solucion = new ArrayList<Vertice>(this.vertices);
+		return solucion;
 	}
 
 	public Integer numVertices() {

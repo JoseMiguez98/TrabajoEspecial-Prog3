@@ -3,7 +3,7 @@ package Grafo;
 import java.util.List;
 import java.util.ArrayList;
 
-class Vertice {
+public class Vertice {
 	private List<Arista>adyacentes;
 	private String etiqueta;
 

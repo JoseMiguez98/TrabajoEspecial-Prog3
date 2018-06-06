@@ -49,6 +49,7 @@ public class GrafoDirigido extends Grafo {
 	//Comienza el rercorrido DFS desde el inicio dado para determinar
 	public boolean tieneCiclo(String _e) {
 		Vertice inicio = this.getVertice(_e);
+		String origen = _e;
 		if(inicio==null) {
 			return false;
 		}
@@ -57,22 +58,24 @@ public class GrafoDirigido extends Grafo {
 			visitados[i] = 0;
 		}
 		visitados[this.vertices.indexOf(inicio)] = 1;
-
-		return tieneCiclo(inicio, visitados);
+		
+		
+		
+		return tieneCiclo(inicio, visitados, origen);
 	}
 
-	private boolean tieneCiclo(Vertice _v, Integer[] _vi){
+	private boolean tieneCiclo(Vertice _v, Integer[] _vi, String _o){
 		//Obtengo los vertices adyacentes al actual
 		List<Vertice> adyacentes = _v.getAdyacentes();
 		//Recorro la lista de adyacentes
 		for(Vertice v : adyacentes) {
 			if(_vi[this.vertices.indexOf(v)].equals(0)) {
 				_vi[this.vertices.indexOf(v)] = 1;
-				if (tieneCiclo(v, _vi)) {
+				if (tieneCiclo(v, _vi, _o)) {
 					return true;
 				}
 			}
-			else if (_vi[this.vertices.indexOf(v)].equals(1)) {
+			else if (_vi[this.vertices.indexOf(v)].equals(1) && this.vertices.get(this.vertices.indexOf(v)).getEtiqueta().equals(_o)) {
 				return true;
 			}
 		}
@@ -128,18 +131,54 @@ public class GrafoDirigido extends Grafo {
 
 
 	}
+	
 	public String[] generosMasBuscados(String _g) {
 		Vertice genero;
 		List<Arista>adyacentes;
 		
+		if(this.containsVertice(_g)) {
 			genero = this.getVertice(_g);
 			adyacentes = genero.getAristas();
+		}
+		
+		else {
+			String[]error = new String[1];
+			error[0] = "No existe el vertice";
+			return error;
+		}
 			
 			
 		return generosMasBuscados(_g,adyacentes.size());
-
-
-
 	
+	}
+	
+	public boolean removeVertice(String _g) {
+		if(this.containsVertice(_g)) {
+			Vertice v = this.getVertice(_g);
+			List<Arista>adyacentes = v.getAristas();
+			
+			for(Arista a : adyacentes) {
+				this.aristas.remove(a);
+			}
+			
+			this.vertices.remove(v);
+			
+			return true;
+		}
+		return false;
+	}
+	
+	public void getAfines() {
+		List<Vertice> verticesNoCiclo = new ArrayList<Vertice>();
+		
+		for(Vertice v : this.vertices) {
+			if(!this.tieneCiclo(v.getEtiqueta())) {
+				verticesNoCiclo.add(v);
+			}
+		}
+		
+		for (Vertice v : verticesNoCiclo) {
+			this.removeVertice(v.getEtiqueta());
+		}
 	}
 }
