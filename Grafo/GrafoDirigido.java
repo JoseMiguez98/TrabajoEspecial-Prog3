@@ -28,7 +28,7 @@ public class GrafoDirigido extends Grafo {
 
 	@Override
 	public boolean addArista(String _v1, String _v2, Integer _p) {
-//			System.out.println(_v1+" "+_v2);
+		//			System.out.println(_v1+" "+_v2);
 		//Compruebo que existan los vertices en el grafo
 		if(this.containsVertice(_v1) && this.containsVertice(_v2)) {
 			//Compruebo que no exista una arista que una estos 2 vertices
@@ -46,7 +46,6 @@ public class GrafoDirigido extends Grafo {
 		return false;
 	}
 
-	//Comienza el rercorrido DFS desde el inicio dado para determinar
 	public boolean tieneCiclo(String _e) {
 		Vertice inicio = this.getVertice(_e);
 		String origen = _e;
@@ -58,9 +57,9 @@ public class GrafoDirigido extends Grafo {
 			visitados[i] = 0;
 		}
 		visitados[this.vertices.indexOf(inicio)] = 1;
-		
-		
-		
+
+
+
 		return tieneCiclo(inicio, visitados, origen);
 	}
 
@@ -75,7 +74,7 @@ public class GrafoDirigido extends Grafo {
 					return true;
 				}
 			}
-			else if (_vi[this.vertices.indexOf(v)].equals(1) && this.vertices.get(this.vertices.indexOf(v)).getEtiqueta().equals(_o)) {
+			else if (_vi[this.vertices.indexOf(v)].equals(1) && v.getEtiqueta().equals(_o)) {
 				return true;
 			}
 		}
@@ -131,54 +130,126 @@ public class GrafoDirigido extends Grafo {
 
 
 	}
-	
-	public String[] generosMasBuscados(String _g) {
-		Vertice genero;
-		List<Arista>adyacentes;
-		
-		if(this.containsVertice(_g)) {
-			genero = this.getVertice(_g);
-			adyacentes = genero.getAristas();
-		}
-		
-		else {
-			String[]error = new String[1];
-			error[0] = "No existe el vertice";
+
+	//	//Comienza el rercorrido DFS desde el inicio dado
+	public List<String> generosMasBuscados (String _e) {
+		Vertice inicio = this.getVertice(_e);
+		if(inicio==null) {
+			List<String>error = new ArrayList<>();
+			error.add("Genero inexistente");
 			return error;
 		}
-			
-			
-		return generosMasBuscados(_g,adyacentes.size());
-	
+		Integer[]visitados = new Integer[this.vertices.size()];
+		for(int i=0 ; i<visitados.length ; i++) {
+			visitados[i] = 0;
+		}
+		visitados[this.vertices.indexOf(inicio)] = 1;
+
+		return generosMasBuscados(inicio, visitados);
 	}
-	
+
+	//Recorrido DFS para obtener todos los generos buscados despues un genero X
+	private List<String> generosMasBuscados(Vertice _v, Integer[] _vi){
+		/* 0 = No visitado
+		 * 1 = Visitado
+		 * 2 = Completado (Todos sus hijos fueron visitados)
+		 */
+		List<String>retorno = new ArrayList<String>();
+		//Obtengo los vertices adyacentes al actual
+		List<Vertice> adyacentes = _v.getAdyacentes();
+		//Recorro la lista de adyacentes
+		retorno.add(_v.getEtiqueta());
+
+		for(Vertice v : adyacentes) {
+			if(_vi[this.vertices.indexOf(v)].equals(0)) {
+				_vi[this.vertices.indexOf(v)] = 1;
+				retorno.addAll(generosMasBuscados(v, _vi));
+			}
+		}
+
+		//Seteo el estado del vertice actual en 2 por que ya recorri todos sus hijos
+		_vi[this.vertices.indexOf(_v)] = 2;
+
+		return retorno;
+	}
+
+
 	public boolean removeVertice(String _g) {
 		if(this.containsVertice(_g)) {
 			Vertice v = this.getVertice(_g);
 			List<Arista>adyacentes = v.getAristas();
-			
+
 			for(Arista a : adyacentes) {
 				this.aristas.remove(a);
 			}
-			
+
 			this.vertices.remove(v);
-			
+
 			return true;
 		}
 		return false;
 	}
-	
-	public void getAfines() {
-		List<Vertice> verticesNoCiclo = new ArrayList<Vertice>();
-		
-		for(Vertice v : this.vertices) {
-			if(!this.tieneCiclo(v.getEtiqueta())) {
-				verticesNoCiclo.add(v);
+	//Dado un genero retorna todos los generos con los que tiene afinidad
+	//es decir los que forman parte de su ciclo (en caso de que exista un ciclo)
+	public List<String> getAfines(String _g) {
+		if(this.containsVertice(_g)) {
+			Vertice v = this.getVertice(_g);
+			if(this.tieneCiclo(_g)) {
+				List<String>solucion = new ArrayList<String>();
+				List<Vertice>s = new ArrayList<Vertice>();
+				List<Vertice>sparcial = new ArrayList<Vertice>();
+				int[]visitados = new int[this.vertices.size()];
+				for(int i=0;i<visitados.length;i++) {
+					visitados[i] = 0;
+				}
+				visitados[this.vertices.indexOf(v)] = 1;
+				s.add(v);
+				getNodosCiclo(v, visitados, s, sparcial, v);
+
+				for(Vertice g : s) {
+					solucion.add(g.getEtiqueta());
+				}
+
+				return solucion;
 			}
 		}
-		
-		for (Vertice v : verticesNoCiclo) {
-			this.removeVertice(v.getEtiqueta());
-		}
+		return null;
 	}
+	//Dado un genero retorna todos los generos con los que tiene afinidad
+	//es decir los que forman parte de su ciclo (en caso de que exista un ciclo)
+	private void getNodosCiclo(Vertice _v, int[]_vi, List<Vertice>_s, List<Vertice>_sparcial, Vertice _o) {
+		List<Vertice>adyacentes = _v.getAdyacentes();
+		for(Vertice ady : adyacentes) {
+			if(_vi[this.vertices.indexOf(ady)] == 1 && ady.equals(_o)) {
+				_s.addAll(_sparcial);
+			}
+			else {
+				_vi[this.vertices.indexOf(ady)] = 1;
+				_sparcial.add(ady);
+				getNodosCiclo(ady, _vi, _s, _sparcial, _o);
+			}
+		}
+		_sparcial.remove(_v);
+		_vi[this.vertices.indexOf(_v)] = 2;
+	}
+
+	//	public String[] generosMasBuscados(String _g) {
+	//		Vertice genero;
+	//		List<Arista>adyacentes;
+	//		
+	//		if(this.containsVertice(_g)) {
+	//			genero = this.getVertice(_g);
+	//			adyacentes = genero.getAristas();
+	//		}
+	//		
+	//		else {
+	//			String[]error = new String[1];
+	//			error[0] = "No existe el vertice";
+	//			return error;
+	//		}
+	//			
+	//			
+	//		return generosMasBuscados(_g,adyacentes.size());
+	//	
+	//	}
 }
